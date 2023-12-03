@@ -14,17 +14,26 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from http.client import HTTPResponse
 import sys
 from django.urls import path
+from django.http import HttpResponse
 
 # 8 bit integers
-large_data = list(range(1))
 large_data = list(range(40 * 1024 * 1024))
 
-def compute_lines(request):
+def raises_error(request):
+    print("View that raises error")
     local_data = large_data
     raise ValueError
 
+def does_not_raise_error(request):
+    print("View that does not raise error")
+    local_data = large_data    
+    return HttpResponse("return this string")
+
+
 urlpatterns = [
-    path("compute-lines/", compute_lines)
+    path("raise_error/", raises_error),
+    path("does_not_raise_error/", does_not_raise_error),
 ]

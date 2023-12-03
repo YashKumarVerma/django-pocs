@@ -13,7 +13,7 @@ class MemoryUsageMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
         mem = psutil.Process(os.getpid()).memory_info()
         diff = mem.rss - request._mem.rss
-        if diff > THRESHOLD:
-            diff_in_mb = diff / (1024 * 1024) 
-            print("Memory usage increased by {} MB".format(diff_in_mb))
+        diff_in_mb = diff / (1024 * 1024) 
+        print("*"*50)
+        print("Memory usage increased by {} MB".format(diff_in_mb))
         return response
